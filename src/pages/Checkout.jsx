@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import "./Checkout.css";
-
+import BASE_URL from "../api";
 function Checkout() {
 
   const [cartItems, setCartItems] = useState([]);
@@ -24,7 +24,7 @@ function Checkout() {
   const loadBuyNow = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3001/product/${buyNowItem.productId}`
+        `${BASE_URL}/product/${buyNowItem.productId}`
       );
 
       setCartItems([
@@ -41,7 +41,7 @@ function Checkout() {
 
   const loadCart = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/cart");
+      const res = await axios.get(`${BASE_URL}/cart`);
       setCartItems(res.data?.items || []);
     } catch (err) {
       console.log(err);
@@ -86,7 +86,7 @@ function Checkout() {
         quantity: item.quantity
       }));
 
-      const res = await axios.post("http://localhost:3001/order", {
+      const res = await axios.post(`${BASE_URL}/order`, {
         fullName,
         email: userEmail,
         phone,

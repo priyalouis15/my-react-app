@@ -10,7 +10,7 @@ function Navbar() {
 
   const navigate = useNavigate();
 
-  // ✅ Get user from localStorage
+ 
   useEffect(() => {
 
     const updateUser = () => {
@@ -27,14 +27,14 @@ function Navbar() {
 
   }, []);
 
-  // ✅ Search
+  
   const handleSearch = (e) => {
     e.preventDefault();
     if (!search.trim()) return;
     navigate(`/search?q=${search}`);
   };
 
-  // ✅ Logout
+ 
   const handleLogout = () => {
     localStorage.removeItem("userEmail");
     setUser(null);
@@ -45,12 +45,11 @@ function Navbar() {
   return (
     <div className="navbar">
 
-      {/* LOGO */}
       <div className="nav-logo">
         <h2>Reliance<span>digital</span></h2>
       </div>
 
-      {/* SEARCH */}
+      
       <form className="nav-search" onSubmit={handleSearch}>
         <input
           type="text"
@@ -60,7 +59,7 @@ function Navbar() {
         />
       </form>
 
-      {/* RIGHT SIDE */}
+     
       <div className="nav-right">
 
         <div className="top-links">
@@ -70,19 +69,19 @@ function Navbar() {
 
         <div className="icons">
 
-          {/* CART */}
+        
           <div className="icon-box">
             <FaShoppingCart />
             <Link to="/cart">Cart</Link>
           </div>
 
-          {/* WISHLIST */}
+          
           <div className="icon-box">
             <FaHeart />
             <span>Wishlist</span>
           </div>
 
-          {/* USER */}
+          
           <div className="icon-box">
             <FaUser />
 

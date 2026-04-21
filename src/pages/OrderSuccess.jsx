@@ -7,7 +7,7 @@ function OrderSuccess() {
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
 
-      <h1>🎉 Order Placed Successfully!</h1>
+      <h1> Order Placed Successfully!</h1>
       <p>Your order has been confirmed.</p>
 
       <button

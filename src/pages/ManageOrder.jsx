@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./ManageOrder.css";
 import { useNavigate } from "react-router-dom";
-
+import BASE_URL from "../api";
 function ManageOrder() {
 
   const [orders, setOrders] = useState([]);
@@ -14,7 +14,7 @@ function ManageOrder() {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/orders");
+      const res = await axios.get(`${BASE_URL}/orders`);
       console.log("ORDERS DATA:", res.data);
       setOrders(res.data);
     } catch (err) {
@@ -24,7 +24,7 @@ function ManageOrder() {
 
   const deleteOrder = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/order/${id}`);
+      await axios.delete(`${BASE_URL}/order/${id}`);
       alert("Deleted");
       fetchOrders();
     } catch (err) {

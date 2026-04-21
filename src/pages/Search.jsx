@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import BASE_URL from "../api";
 function Search() {
 
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ function Search() {
 
     if (!query) return;
 
-    axios.get(`http://localhost:3001/search?q=${query}`)
+    axios.get(`${BASE_URL}/search?q=${query}`)
       .then((res) => {
         setProducts(res.data);
       });
@@ -33,7 +33,7 @@ function Search() {
 
           <div key={p._id} style={{ width: "220px" }}>
 
-            {/* ✅ FIXED IMAGE */}
+           
             <img
               src={p.image}
               width="150"
@@ -45,7 +45,7 @@ function Search() {
 
             <button
               onClick={async () => {
-                await axios.post("http://localhost:3001/cart", {
+                await axios.post(`${BASE_URL}/cart`, {
                   productId: p._id
                 });
                 alert("Added to cart");

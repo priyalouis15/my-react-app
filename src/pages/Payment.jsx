@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import "./Payment.css";
-
+import BASE_URL from "../api";
 function Payment() {
 
   const location = useLocation();
@@ -31,7 +31,7 @@ const handlePayment = async () => {
 
     if (method === "cod") {
 
-      await axios.put(`http://localhost:3001/update-payment/${orderId}`, {
+      await axios.put(`${BASE_URL}/update-payment/${orderId}`, {
         paymentMethod: "cod",
         status: "pending"
       });
@@ -51,7 +51,7 @@ const handlePayment = async () => {
       }
 
       const res = await axios.post(
-        "http://localhost:3001/create-razorpay-order",
+        `${BASE_URL}/create-razorpay-order`,
         { amount: total }
       );
 
@@ -73,7 +73,7 @@ const handlePayment = async () => {
         handler: async function (response) {
           try {
             const verifyRes = await axios.post(
-              "http://localhost:3001/verify-payment",
+              `${BASE_URL}/verify-payment`,
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -85,7 +85,7 @@ const handlePayment = async () => {
             if (verifyRes.data.success) {
               navigate("/success");
             } else {
-              alert("Payment verification failed ❌");
+              alert("Payment verification failed ");
             }
 
           } catch (err) {

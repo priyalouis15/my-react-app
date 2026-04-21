@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import SimpleNavbar from "../components/SimpleNavbar";
-
+import BASE_URL from "../api";
 function ProductDetails() {
 
   const { id } = useParams();
@@ -13,7 +13,7 @@ function ProductDetails() {
   useEffect(() => {
     if (!id) return;
 
-    axios.get(`http://localhost:3001/product/${id}`)
+    axios.get(`${BASE_URL}/product/${id}`)
       .then(res => {
         console.log("PRODUCT DATA:", res.data);
         setProduct(res.data);
@@ -27,7 +27,7 @@ function ProductDetails() {
 
   const addToCart = async () => {
     try {
-      await axios.post("http://localhost:3001/cart", {
+      await axios.post(`${BASE_URL}/cart`, {
         productId: product._id
       });
       alert("Added to cart successfully");

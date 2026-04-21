@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./ManageUser.css";
-
+import BASE_URL from "../api";
 function ManageUser() {
 
   const [users, setUsers] = useState([]);
@@ -12,7 +12,7 @@ function ManageUser() {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/users");
+      const res = await axios.get(`${BASE_URL}/users`);
       console.log("USERS:", res.data);
       setUsers(res.data);
     } catch (err) {

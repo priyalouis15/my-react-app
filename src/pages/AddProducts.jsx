@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SimpleNavbar from "../components/SimpleNavbar";
 
 function AddProducts() {
-
+const BASE_URL = "https://your-app.onrender.com";
   const location = useLocation();
   const navigate = useNavigate();
   const editData = location.state || null;
@@ -25,45 +25,55 @@ function AddProducts() {
       [e.target.name]: e.target.value
     });
   };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const formData = new FormData();
 
-    const formData = new FormData();
+  formData.append("name", product.name);
+  formData.append("description", product.description);
+  formData.append("price", product.price);
+  formData.append("quantity", product.quantity);
+  formData.append("category", product.category);
 
-    formData.append("name", product.name);
-    formData.append("description", product.description);
-    formData.append("price", product.price);
-    formData.append("quantity", product.quantity);
-    formData.append("category", product.category);
+  if (file) {
+    formData.append("image", file);
+  }
 
-    if (file) {
-      formData.append("image", file);
+  try {
+    if (editData && editData._id) {
+     
+      await axios.put(
+        `${BASE_URL}/updateproduct/${editData._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
+      alert("Product Updated Successfully");
+    } else {
+     
+      await axios.post(
+        `${BASE_URL}/addproduct`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
+      alert("Product Added Successfully");
     }
 
-    try {
-      if (editData) {
-        await axios.put(
-          `http://localhost:3001/updateproduct/${editData._id}`,
-          formData
-        );
-        alert("Product Updated Successfully");
-      } else {
-        await axios.post(
-          "http://localhost:3001/addproduct",
-          formData
-        );
-        alert("Product Added Successfully");
-      }
+    navigate("/manageproducts");
 
-      navigate("/manageproducts");
-
-    } catch (error) {
-      console.log(error);
-      alert("Error saving product");
-    }
-  };
-
+  } catch (error) {
+    console.log(error);
+    alert("Error saving product");
+  }
+};
   return (
     <>
       <SimpleNavbar />

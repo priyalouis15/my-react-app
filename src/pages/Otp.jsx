@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./Otp.css";
 import Navbar from "../components/Navbar";
-
+import BASE_URL from "../api";
 function Otp() {
 
   const [otp, setOtp] = useState("");
@@ -29,7 +29,7 @@ function Otp() {
     }
 
     try {
-      await axios.post("http://localhost:3001/verify-otp", {
+      await axios.post(`${BASE_URL}/verify-otp`, {
         email,
         otp
       });

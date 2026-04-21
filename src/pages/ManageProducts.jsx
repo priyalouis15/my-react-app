@@ -4,6 +4,7 @@ import "./ManageProducts.css";
 import { use } from "react";
 import { useNavigate } from "react-router-dom";
 import SimpleNavbar from "../components/SimpleNavbar";
+import BASE_URL from "../api";
 function ManageProducts() {
 
 const navigate = useNavigate();
@@ -18,7 +19,7 @@ const editProduct = (product) => {
   }, []);
 
   const fetchProducts = async () => {
-    const res = await axios.get("http://localhost:3001/products");
+    const res = await axios.get(`${BASE_URL}/products`);
     setProducts(res.data);
   };
 
@@ -29,7 +30,7 @@ const deleteProduct = async (id) => {
 
   try {
 
-    await axios.delete(`http://localhost:3001/deleteproduct/${id}`);
+    await axios.delete(`${BASE_URL}/deleteproduct/${id}`);
 
     alert("Product deleted successfully");
 

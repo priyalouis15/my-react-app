@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import Navbar from "../components/Navbar";
-
+import BASE_URL from "../api";
 const Profile = () => {
 
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ const Profile = () => {
     setEmail(storedEmail);
 
     if (storedEmail) {
-      fetch(`http://localhost:3001/my-orders/${storedEmail}`)
+      fetch(`${BASE_URL}/my-orders/${storedEmail}`)
         .then(res => res.json())
         .then(data => {
           console.log("ORDERS:", data);
@@ -38,7 +38,7 @@ const Profile = () => {
 
       <div className="profile-container">
 
-        {/* SIDEBAR */}
+       
         <div className="sidebar">
           <h2>User</h2>
           <p>{email}</p>
@@ -64,10 +64,10 @@ const Profile = () => {
           </ul>
         </div>
 
-        {/* CONTENT */}
+       
         <div className="profile-content">
 
-          {/* PROFILE TAB */}
+         
           {activeTab === "profile" && (
             <>
               <h2>Profile Information</h2>
@@ -81,7 +81,7 @@ const Profile = () => {
             </>
           )}
 
-          {/* ORDERS TAB */}
+         
           {activeTab === "orders" && (
             <>
               <h2>My Orders</h2>
@@ -109,7 +109,7 @@ const Profile = () => {
                           {order.items.map((item, index) => (
                             <div key={index} className="order-item">
 
-                              {/* ✅ CLOUDINARY IMAGE */}
+                            
                               <img
                                 src={item.productId?.image}
                                 alt=""

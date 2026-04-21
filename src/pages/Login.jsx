@@ -4,7 +4,7 @@ import axios from "axios";
 import validator from "validator";
 import "./Log.css";
 import Navbar from "../components/Navbar";
-
+import BASE_URL from "../api";
 function Login() {
 
   const [email, setEmail] = useState("");
@@ -27,7 +27,7 @@ function Login() {
     if (!validateEmail(email)) return;
 
     try {
-      await axios.post("http://localhost:3001/login", { email });
+      await axios.post(`${BASE_URL}/login`, { email });
 
       alert("OTP sent to your email");
 

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
 import "./Cart.css";
 import Navbar from "../components/Navbar";
-
+import BASE_URL from "../api";
 function Cart() {
 
   const [cartItems, setCartItems] = useState([]);
@@ -16,7 +16,7 @@ function Cart() {
   const loadCart = async () => {
     try {
 
-      const res = await axios.get("http://localhost:3001/cart");
+      const res = await axios.get(`${BASE_URL}/cart`);
 
       console.log("Cart response:", res.data);
 
@@ -30,7 +30,7 @@ function Cart() {
   const increaseQty = async (productId) => {
     try {
 
-      await axios.put(`http://localhost:3001/cart/${productId}`, {
+      await axios.put(`/cart/${productId}`, {
         action: "increase"
       });
 
@@ -44,7 +44,7 @@ function Cart() {
   const decreaseQty = async (productId) => {
     try {
 
-      await axios.put(`http://localhost:3001/cart/${productId}`, {
+      await axios.put(`${BASE_URL}/cart/${productId}`, {
         action: "decrease"
       });
 
@@ -58,7 +58,7 @@ function Cart() {
   const removeItem = async (productId) => {
     try {
 
-      await axios.delete(`http://localhost:3001/cart/${productId}`);
+      await axios.delete(`${BASE_URL}/cart/${productId}`);
 
       loadCart();
 

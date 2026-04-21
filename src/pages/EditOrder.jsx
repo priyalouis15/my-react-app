@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./EditOrder.css";
-
+import BASE_URL from "../api";
 function EditOrder() {
 
   const { id } = useParams();
@@ -17,7 +17,7 @@ function EditOrder() {
 
   const getOrder = async () => {
     try {
-      const res = await axios.get(`http://localhost:3001/order/${id}`);
+      const res = await axios.get(`${BASE_URL}/order/${id}`);
       setOrderStatus(res.data.orderStatus);
       setPaymentStatus(res.data.paymentStatus);
     } catch (err) {
@@ -28,7 +28,7 @@ function EditOrder() {
   const updateOrder = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:3001/update-order/${id}`,
+        `${BASE_URL}/update-order/${id}`,
         {
           orderStatus,
           paymentStatus
