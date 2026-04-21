@@ -1,0 +1,86 @@
+.login-container {
+  background: #f3f3f3;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  border-radius: 15px;
+  padding: 40px 30px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.login-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.login-right h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.login-right p {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+
+.login-right input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 5px;
+  margin-bottom: 15px;
+  transition: 0.3s;
+}
+
+.login-right input:focus {
+  border-color: #96a6d0;
+  box-shadow: 0 0 5px rgba(150, 166, 208, 0.5);
+  outline: none;
+}
+
+
+.login-right button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 25px;
+  background: #b5b4e3;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-right button:hover {
+  background: #9a99d8;
+  transform: translateY(-1px);
+}
+
+
+.login-right p[style] {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+
+@media (max-width: 500px) {
+  .login-box {
+    margin: 10px;
+    padding: 30px 20px;
+  }
+}

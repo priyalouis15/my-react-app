@@ -1,0 +1,67 @@
+
+body {
+  font-family: "Times New Roman", Times, serif;
+}
+
+
+.otp-container {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6f8;
+}
+
+
+.otp-box {
+  width: 400px;
+  padding: 40px;
+  background: white;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+
+.otp-box h2 {
+  margin-bottom: 10px;
+}
+
+.email-text {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+
+.otp-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.verify-btn {
+  width: 100%;
+  padding: 12px;
+  background: #6c5ce7;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.verify-btn:hover {
+  background: #5a4bd1;
+}
+
+
+.error-text {
+  color: red;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
