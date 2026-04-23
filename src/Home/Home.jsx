@@ -34,7 +34,7 @@ function Home() {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/products");
+      const res = await axios.get(`${BASE_URL}/products`);
       setProducts(res.data);
     } catch (error) {
       console.log(error);
