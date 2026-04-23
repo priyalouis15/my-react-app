@@ -24,7 +24,7 @@ function Checkout() {
   const loadBuyNow = async () => {
     try {
       const res = await axios.get(
-        `${BASE_URL}/product/${buyNowItem.productId}`
+    `${BASE_URL}/product/${buyNowItem.productId}`
       );
 
       setCartItems([
@@ -42,17 +42,14 @@ function Checkout() {
   const loadCart = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/cart`);
-      setCartItems(res.data?.items || []);
+         setCartItems(res.data?.items || []);
     } catch (err) {
       console.log(err);
     }
   };
 
-
   useEffect(() => {
-
-    
-    const storedEmail = localStorage.getItem("userEmail");
+ const storedEmail = localStorage.getItem("userEmail");
     if (storedEmail) {
       setUserEmail(storedEmail);
     }
@@ -66,8 +63,7 @@ function Checkout() {
     (sum, item) => sum + item.productId.price * item.quantity,
     0
   );
-
-  const gst = total * 0.18;
+const gst = total * 0.18;
   const grandTotal = total + gst;
 
  
@@ -78,14 +74,12 @@ function Checkout() {
       alert("Email missing");
       return;
     }
-
     try {
 
       const checkoutItems = cartItems.map(item => ({
         productId: item.productId._id,
         quantity: item.quantity
       }));
-
       const res = await axios.post(`${BASE_URL}/order`, {
         fullName,
         email: userEmail,
@@ -102,9 +96,7 @@ function Checkout() {
         alert("Order failed");
         return;
       }
-
-      
-      navigate("/payment", {
+   navigate("/payment", {
         state: {
           orderId: res.data.orderId,
           total: grandTotal
@@ -113,7 +105,7 @@ function Checkout() {
 
     } catch (err) {
       console.log("CHECKOUT ERROR:", err.response?.data || err.message);
-      alert("Server error");
+         alert("Server error");
     }
   };
 
@@ -123,92 +115,80 @@ function Checkout() {
 
       <div className="checkout-container">
 
-     
-        <div className="checkout-left">
+  <div className="checkout-left">
+       <h2>Shipping Details</h2>
 
-          <h2>Checkout</h2>
+    <form onSubmit={handleSubmit} className="checkout-form">
 
-          <form onSubmit={handleSubmit} className="checkout-form">
-
-            <input
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Full Name"
-              required
-            />
-
-           
-            <input
-              value={userEmail}
-              readOnly
-              placeholder="Email"
-            />
-
-            <input
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="Phone"
-              required
-            />
-
-            <textarea
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Address"
-              required
-            />
-
-            <input
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="City"
-              required
-            />
-
-            <input
-              value={stateName}
-              onChange={(e) => setStateName(e.target.value)}
-              placeholder="State"
-              required
-            />
-
-            <input
-              value={pincode}
-              onChange={(e) => setPincode(e.target.value)}
-              placeholder="Pincode"
-              required
-            />
-
-            <button type="submit">
-              Proceed to Payment
-            </button>
-
-          </form>
-
-        </div>
-
-    
-        <div className="checkout-right">
-
-          <h3>Order Summary</h3>
-
-          {cartItems.map((item) => (
-            <div key={item.productId._id}>
-              <p>{item.productId.name}</p>
-              <p>₹ {item.productId.price * item.quantity}</p>
-            </div>
-          ))}
-
-          <hr />
-
-          <p>Total: ₹ {total}</p>
-          <p>GST (18%): ₹ {gst.toFixed(2)}</p>
-
-          <h3>Grand Total: ₹ {grandTotal.toFixed(2)}</h3>
-
-        </div>
-
+      <div className="form-group">
+        <label>Full Name</label>
+        <input value={fullName} onChange={(e) => setFullName(e.target.value)} required />
       </div>
+
+      <div className="form-group">
+              <label>Email</label>
+        <input value={userEmail} readOnly />
+      </div>
+
+      <div className="form-group">
+        <label>Phone</label>
+        <input value={phone} onChange={(e) => setPhone(e.target.value)} required />
+      </div>
+
+      <div className="form-group">
+        <label>Address</label>
+        <textarea value={address} onChange={(e) => setAddress(e.target.value)} required />
+      </div>
+
+      <div className="row">
+      <input placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} required />
+        <input placeholder="State" value={stateName} onChange={(e) => setStateName(e.target.value)} required />
+      </div>
+
+      <input
+        placeholder="Pincode"
+        value={pincode}
+        onChange={(e) => setPincode(e.target.value)}
+        required
+      />
+
+      <button className="checkout-btn">
+        Proceed to Payment
+      </button>
+
+    </form>
+  </div>
+
+
+  <div className="checkout-right">
+    <h3>Order Summary</h3>
+
+    {cartItems.map((item) => (
+      <div className="summary-item" key={item.productId._id}>
+        <span>{item.productId.name}</span>
+        <span>₹ {item.productId.price * item.quantity}</span>
+      </div>
+    ))}
+
+    <hr />
+
+    <div className="summary-row">
+      <span>Total</span>
+      <span>₹ {total}</span>
+    </div>
+
+    <div className="summary-row">
+      <span>GST (18%)</span>
+      <span>₹ {gst.toFixed(2)}</span>
+    </div>
+
+    <div className="grand-total">
+      <span>Grand Total</span>
+      <span>₹ {grandTotal.toFixed(2)}</span>
+    </div>
+  </div>
+
+</div>
     </>
   );
 }
