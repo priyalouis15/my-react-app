@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SimpleNavbar from "../components/SimpleNavbar";
 
 function AddProducts() {
-const BASE_URL = "https://your-app.onrender.com";
+const BASE_URL = "https://full-stack-reliance-digital-website.onrender.com";
   const location = useLocation();
   const navigate = useNavigate();
   const editData = location.state || null;
