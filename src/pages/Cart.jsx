@@ -26,35 +26,32 @@ function Cart() {
       console.log("Error loading cart:", error);
     }
   };
+const increaseQty = async (productId) => {
+  try {
 
-  const increaseQty = async (productId) => {
-    try {
+    await axios.put(`${BASE_URL}/cart/${productId}`, {
+      action: "increase"
+    });
 
-      await axios.put(`/cart/${productId}`, {
-        action: "increase"
-      });
+    loadCart();
 
-      loadCart();
+  } catch (error) {
+    console.log(error);
+  }
+};
+ const decreaseQty = async (productId) => {
+  try {
 
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    await axios.put(`${BASE_URL}/cart/${productId}`, {
+      action: "decrease"
+    });
 
-  const decreaseQty = async (productId) => {
-    try {
+    loadCart();
 
-      await axios.put(`${BASE_URL}/cart/${productId}`, {
-        action: "decrease"
-      });
-
-      loadCart();
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  } catch (error) {
+    console.log("Decrease error:", error);
+  }
+};
   const removeItem = async (productId) => {
     try {
 
