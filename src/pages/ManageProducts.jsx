@@ -10,7 +10,7 @@ function ManageProducts() {
 const navigate = useNavigate();
 
 const editProduct = (product) => {
-  navigate("/addproducts", { state: product });
+  navigate("/add-product", { state: product });
 };
   const [products, setProducts] = useState([]);
 
