@@ -16,7 +16,7 @@ function Dashboard() {
           Add Product
         </button>
 
-        <button onClick={() => navigate("/manage-product")}>
+        <button onClick={() => navigate("/manage-products")}>
           Manage Product
         </button>
 
