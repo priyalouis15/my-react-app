@@ -1,7 +1,24 @@
-.dashboard {
+.dashboard-wrapper {
+  display: flex;
+}
+
+.sidebar {
+  width: 220px;
+  background: #0a8f3c;
+  color: white;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.sidebar p {
+  margin: 15px 0;
+  cursor: pointer;
+}
+
+.main {
+  flex: 1;
   padding: 20px;
   background: #f5f6fa;
-  min-height: 100vh;
 }
 
 .cards {
@@ -33,35 +50,4 @@
   background: white;
   padding: 20px;
   border-radius: 10px;
-}
-
-.table-box {
-  margin-top: 20px;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th, td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.buttons {
-  margin-top: 20px;
-}
-
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  border: none;
-  background: #007bff;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
 }

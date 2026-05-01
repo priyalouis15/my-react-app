@@ -2,29 +2,29 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BASE_URL from "../api";
+import "./Dashboard.css";
 
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
   BarElement,
+  LineElement,
   ArcElement,
+  PointElement,
   Tooltip,
   Legend
 } from "chart.js";
 
-import { Bar, Pie } from "react-chartjs-2";
-import "./Dashboard.css";
+import { Bar, Pie, Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
   BarElement,
+  LineElement,
   ArcElement,
+  PointElement,
   Tooltip,
   Legend
 );
@@ -43,39 +43,55 @@ function Dashboard() {
       const res = await axios.get(`${BASE_URL}/admin/dashboard`);
       setData(res.data);
     } catch (err) {
-      console.log("Dashboard error:", err);
+      console.log(err);
     }
   };
 
-  if (!data) return <h3 style={{ textAlign: "center" }}>Loading...</h3>;
+  if (!data) return <h3>Loading...</h3>;
 
-  
-  const labels =
-    data.salesByMonth?.map(i =>
-      new Date(2024, i._id.month - 1).toLocaleString("default", { month: "short" })
-    ) || [];
 
-  const values = data.salesByMonth?.map(i => i.count) || [];
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const monthData = new Array(12).fill(0);
 
-  const barData = {
-    labels,
+  data.salesByMonth.forEach(item => {
+    monthData[item._id.month - 1] = item.count;
+  });
+
+  const ordersChart = {
+    labels: months,
     datasets: [
       {
         label: "Orders",
-        data: values,
+        data: monthData,
         backgroundColor: "#007bff"
       }
     ]
   };
 
+  const revenueData = new Array(12).fill(0);
+
+  data.recentOrders.forEach(order => {
+    const m = new Date(order.createdAt).getMonth();
+    revenueData[m] += order.totalAmount;
+  });
+
+  const revenueChart = {
+    labels: months,
+    datasets: [
+      {
+        label: "Revenue",
+        data: revenueData,
+        borderColor: "#28a745",
+        fill: false
+      }
+    ]
+  };
+
  
-  const paid =
-    data.recentOrders?.filter(o => o.paymentStatus === "Paid").length || 0;
+  const paid = data.recentOrders.filter(o => o.paymentStatus === "Paid").length;
+  const pending = data.recentOrders.filter(o => o.paymentStatus !== "Paid").length;
 
-  const pending =
-    data.recentOrders?.filter(o => o.paymentStatus !== "Paid").length || 0;
-
-  const pieData = {
+  const paymentChart = {
     labels: ["Paid", "Pending"],
     datasets: [
       {
@@ -85,107 +101,87 @@ function Dashboard() {
     ]
   };
 
+
+  const placed = data.recentOrders.filter(o => o.orderStatus === "Placed").length;
+  const delivered = data.recentOrders.filter(o => o.orderStatus === "Delivered").length;
+
+  const statusChart = {
+    labels: ["Placed", "Delivered"],
+    datasets: [
+      {
+        data: [placed, delivered],
+        backgroundColor: ["orange", "green"]
+      }
+    ]
+  };
+
   return (
-    <div className="dashboard">
+    <div className="dashboard-wrapper">
 
-      <h2>Admin Dashboard</h2>
-
-   
-      <div className="cards">
-
-        <div className="card">
-          <p>{data.totalProducts}</p>
-          <span>Total Products</span>
-        </div>
-
-        <div className="card">
-          <p>{data.totalOrders}</p>
-          <span>Total Orders</span>
-        </div>
-
-        <div className="card">
-          <p>{data.totalUsers}</p>
-          <span>Total Users</span>
-        </div>
-
-        <div className="card">
-          <p>₹ {data.totalRevenue.toLocaleString()}</p>
-          <span>Total Revenue</span>
-        </div>
-
+      <div className="sidebar">
+        <h3>Admin</h3>
+        <p onClick={() => navigate("/add-product")}>Add Product</p>
+        <p onClick={() => navigate("/manage-products")}>Manage Product</p>
+        <p onClick={() => navigate("/manageorder")}>Manage Order</p>
+        <p onClick={() => navigate("/manageuser")}>Manage User</p>
       </div>
 
-      <div className="charts">
+ 
+      <div className="main">
 
-        <div className="chart-box">
-          <h4>Sales Per Month</h4>
-          <Bar data={barData} />
+        <h2>Admin Dashboard</h2>
+
+  
+        <div className="cards">
+
+          <div className="card">
+            <p>{data.totalProducts}</p>
+            <span>Products</span>
+          </div>
+
+          <div className="card">
+            <p>{data.totalOrders}</p>
+            <span>Orders</span>
+          </div>
+
+          <div className="card">
+            <p>{data.totalUsers}</p>
+            <span>Users</span>
+          </div>
+
+          <div className="card">
+            <p>₹ {data.totalRevenue.toLocaleString()}</p>
+            <span>Revenue</span>
+          </div>
+
         </div>
-
-        <div className="chart-box">
-          <h4>Payment Status</h4>
-          <Pie data={pieData} />
-        </div>
-
-      </div>
-
-      <div className="table-box">
-        <h4>Recent Orders</h4>
-
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Date</th>
-              <th>Amount</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {data.recentOrders?.map(order => (
-              <tr key={order._id}>
-                <td>{order._id.slice(-6)}</td>
-                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                <td>₹ {order.totalAmount.toLocaleString()}</td>
-                <td
-                  style={{
-                    color:
-                      order.orderStatus === "Placed"
-                        ? "orange"
-                        : "green",
-                    fontWeight: "bold"
-                  }}
-                >
-                  {order.orderStatus}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
 
      
-      <div className="buttons">
+        <div className="charts">
 
-        <button onClick={() => navigate("/add-product")}>
-          Add Product
-        </button>
+          <div className="chart-box">
+            <h4>Orders Per Month</h4>
+            <Bar data={ordersChart} />
+          </div>
 
-        <button onClick={() => navigate("/manage-products")}>
-          Manage Product
-        </button>
+          <div className="chart-box">
+            <h4>Revenue Trend</h4>
+            <Line data={revenueChart} />
+          </div>
 
-        <button onClick={() => navigate("/manageorder")}>
-          Manage Order
-        </button>
+          <div className="chart-box">
+            <h4>Payment Status</h4>
+            <Pie data={paymentChart} />
+          </div>
 
-        <button onClick={() => navigate("/manageuser")}>
-          Manage User
-        </button>
+          <div className="chart-box">
+            <h4>Order Status</h4>
+            <Pie data={statusChart} />
+          </div>
+
+        </div>
 
       </div>
-
     </div>
   );
 }
