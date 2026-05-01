@@ -67,7 +67,7 @@ const handleSubmit = async (e) => {
       alert("Product Added Successfully");
     }
 
-    navigate("/manageproducts");
+    navigate("/manage-products");
 
   } catch (error) {
     console.log(error);
@@ -101,8 +101,9 @@ const handleSubmit = async (e) => {
             <option>Mobile</option>
             <option>Laptop</option>
               <option>Tv</option>
+               <option>Watch</option>
                 <option>Refrigerator</option>
-                  <option>Mobile</option>
+                  <option>Tablet</option>
                     <option>AC</option>
                       <option>EarPods</option>
                         <option>ws</option>

@@ -31,66 +31,56 @@ const increaseQty = async (productId) => {
 
     await axios.put(`${BASE_URL}/cart/${productId}`, {
       action: "increase"
-    });
+      });
 
     loadCart();
 
-  } catch (error) {
+  }catch (error){
     console.log(error);
   }
 };
- const decreaseQty = async (productId) => {
+ const decreaseQty =async (productId)=>{
   try {
 
-    await axios.put(`${BASE_URL}/cart/${productId}`, {
+    await axios.put(`${BASE_URL}/cart/${productId}`,{
       action: "decrease"
     });
 
     loadCart();
 
-  } catch (error) {
+  }catch (error){
     console.log("Decrease error:", error);
   }
 };
-  const removeItem = async (productId) => {
+  const removeItem = async (productId)=>{
     try {
-
-      await axios.delete(`${BASE_URL}/cart/${productId}`);
-
+   await axios.delete(`${BASE_URL}/cart/${productId}`);
       loadCart();
-
-    } catch (error) {
+   } catch (error) {
       console.log(error);
     }
   };
-
-  
-  const handleCheckout = () => {
-    navigate("/checkout");
+ const handleCheckout = () => {
+navigate("/checkout");
   };
 
   const totalPrice = cartItems.reduce(
-    (total, item) =>
-      total + item.productId.price * item.quantity,
+  (total, item) =>
+  total + item.productId.price * item.quantity,
     0
   );
 
   return (
     <>
      <Navbar />
-
-      <div className="cart-container">
-
-        <h2 className="cart-title">Your Cart</h2>
-
-        {cartItems.length === 0 ? (
+<div className="cart-container">
+  <h2 className="cart-title">Your Cart</h2>
+  {cartItems.length === 0 ? (
           <p className="cart-empty">No items in cart</p>
         ) : (
           <>
             <div className="cart-list">
-
-              {cartItems.map((item) => (
-
+              {cartItems.map((item)=>(
                 <div className="cart-card" key={item.productId._id}>
 
                  <img
@@ -118,13 +108,12 @@ const increaseQty = async (productId) => {
 
                 </div>
 
-              ))}
+                ))}
 
             </div>
 
             <div className="cart-summary">
               <h3>Total: ₹ {totalPrice}</h3>
-
               <button
                 className="checkout-btn"
                 onClick={handleCheckout}

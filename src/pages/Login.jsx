@@ -40,19 +40,17 @@ function Login() {
   };
 
   return (
-    <>
+        <>
       <Navbar />
 
       <div className="login-container">
 
         <div className="login-box">
-
-        
-          <div className="login-left">
+ <div className="login-left">
             <div className="info">
-              <h2>Manage Your Orders</h2>
-              <p>Track your orders and returns easily with our platform.</p>
-            </div>
+            <h2>Manage Your Orders</h2>
+            <p>Track your orders and returns easily with our platform.</p>
+          </div>
           </div>
 
           <div className="login-right">
@@ -73,16 +71,10 @@ function Login() {
               />
 
               {emailError && <p className="error-text">{emailError}</p>}
-
-              <button type="submit" className="proceed-btn">
+             <button type="submit" className="proceed-btn">
                 Proceed
               </button>
-
             </form>
-
-            <p className="bottom-text">
-              New user? <Link to="/register">Register</Link>
-            </p>
 
             <p className="bottom-text">
               Are you admin? <Link to="/admin">Admin</Link>

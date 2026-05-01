@@ -37,7 +37,7 @@ function Admin() {
           />
 
           <input
-            type="password"
+           type="password"
             placeholder="Enter your Password"
             className="admin-input"
             value={password}

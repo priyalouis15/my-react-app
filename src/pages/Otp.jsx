@@ -6,13 +6,13 @@ import Navbar from "../components/Navbar";
 import BASE_URL from "../api";
 function Otp() {
 
-  const [otp, setOtp] = useState("");
-  const [error, setError] = useState("");
+  const [otp, setOtp]=useState("");
+  const [error, setError]=useState("");
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate= useNavigate();
+  const location =useLocation();
 
-  const email = location.state?.email;
+  const email =location.state?.email;
 
   useEffect(() => {
     if (!email) {
@@ -20,16 +20,16 @@ function Otp() {
     }
   }, [email, navigate]);
 
-  const handleVerify = async (e) => {
+  const handleVerify =async(e) =>{
     e.preventDefault();
 
-    if (!otp) {
+    if (!otp){
       setError("Please enter OTP");
       return;
-    }
+       }
 
     try {
-      await axios.post(`${BASE_URL}/verify-otp`, {
+      await axios.post(`${BASE_URL}/verify-otp`,{
         email,
         otp
       });
@@ -54,13 +54,12 @@ function Otp() {
 
         <div className="otp-box">
 
-          <h2>OTP Verification</h2>
-          <p>Enter OTP sent to:</p>
-          <p className="email-text">{email}</p>
-
+        <h2>OTP Verification</h2>
+        <p>Enter OTP sent to:</p>
+         <p className="email-text">{email}</p>
           <form onSubmit={handleVerify}>
 
-            <input
+           <input
               type="text"
               placeholder="Enter OTP"
               value={otp}

@@ -1,3 +1,6 @@
+import { useState } from "react";
+import axios from "axios";
+import BASE_URL from "../api";
 import "./Category.css";
 
 const categories = [
@@ -9,21 +12,54 @@ const categories = [
   { name: "Smart Wearables", img: "/assets/watch.jpg" },
   { name: "Laptops", img: "/assets/laptop.jpg" },
   { name: "Refrigerators", img: "/assets/refrigertor.jpg" },
-  { name: "Washing  Machine", img: "/assets/ws.jpg" },
+  { name: "Washing Machine", img: "/assets/ws.jpg" },
 ];
 
 function Category() {
+
+  const [products, setProducts] = useState([]);
+
+  const fetchProducts = async (category) => {
+    try {
+      const res = await axios.get(
+        `${BASE_URL}/products/category/${category}`
+      );
+      setProducts(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
+    <div>
+
+      
     <div className="categories">
-      {categories.map((category, index) => (
-        <div className="category" key={index}>
-        <img src={category.img} alt={category.name} />
-        <p>{category.name}</p>
-        </div>
-      ))}
+        {categories.map((cat, i) => (
+          <div
+            className="category"
+            key={i}
+            onClick={() => fetchProducts(cat.name)}
+          >
+            <img src={cat.img} alt={cat.name} />
+            <p>{cat.name}</p>
+          </div>
+        ))}
+      </div>
+
+   
+      <div className="product-grid">
+        {products.map(p => (
+          <div className="product-card" key={p._id}>
+            <img src={p.image} alt="" />
+            <h4>{p.name}</h4>
+            <p>₹ {p.price}</p>
+          </div>
+        ))}
+      </div>
+
     </div>
   );
 }
-
 
 export default Category;

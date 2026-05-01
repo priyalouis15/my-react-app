@@ -6,11 +6,9 @@ function Search() {
 
   const navigate = useNavigate();
   const location = useLocation();
-
   const query = new URLSearchParams(location.search).get("q");
 
   const [products, setProducts] = useState([]);
-
   useEffect(() => {
 
     if (!query) return;
@@ -24,31 +22,23 @@ function Search() {
 
   return (
     <div style={{ padding: "40px" }}>
-
       <h2>Search Results for "{query}"</h2>
-
       <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-
         {products.map((p) => (
-
-          <div key={p._id} style={{ width: "220px" }}>
-
-           
+        <div key={p._id} style={{ width: "220px" }}>
             <img
               src={p.image}
               width="150"
               alt={p.name}
             />
-
             <h4>{p.name}</h4>
             <p>₹ {p.price}</p>
-
             <button
               onClick={async () => {
                 await axios.post(`${BASE_URL}/cart`, {
-                  productId: p._id
+                productId: p._id
                 });
-                alert("Added to cart");
+              alert("Added to cart");
               }}
             >
               Add to Cart
@@ -57,10 +47,10 @@ function Search() {
             <button
               onClick={() => {
                 navigate("/checkout", {
-                  state: {
+                state: {
                     buyNowItem: {
-                      productId: p._id,
-                      quantity: 1
+                     productId: p._id,
+                    quantity: 1
                     }
                   }
                 });
@@ -68,11 +58,8 @@ function Search() {
             >
               Buy Now
             </button>
-
           </div>
-
         ))}
-
       </div>
     </div>
   );

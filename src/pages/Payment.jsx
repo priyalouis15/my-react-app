@@ -30,16 +30,14 @@ const handlePayment = async () => {
     }
 
     if (method === "cod") {
-
       await axios.put(`${BASE_URL}/update-payment/${orderId}`, {
-        paymentMethod: "cod",
+      paymentMethod: "cod",
         status: "pending"
       });
 
       navigate("/success");
 
     } else {
-
       if (!window.Razorpay) {
         alert("Razorpay not loaded");
         return;

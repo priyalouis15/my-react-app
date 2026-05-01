@@ -16,7 +16,7 @@ import {
   Legend
 } from "chart.js";
 
-import { Bar, Pie, Line } from "react-chartjs-2";
+import { Bar,Pie,Line,Doughnut } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -47,14 +47,13 @@ function Dashboard() {
     }
   };
 
-  if (!data) return <h3>Loading...</h3>;
-
+  if (!data) return <h3>Loading..</h3>;
 
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const monthData = new Array(12).fill(0);
 
   data.salesByMonth.forEach(item => {
-    monthData[item._id.month - 1] = item.count;
+    monthData[item._id.month- 1] = item.count;
   });
 
   const ordersChart = {
@@ -66,28 +65,25 @@ function Dashboard() {
         backgroundColor: "#007bff"
       }
     ]
-  };
+ };
 
   const revenueData = new Array(12).fill(0);
-
   data.recentOrders.forEach(order => {
     const m = new Date(order.createdAt).getMonth();
     revenueData[m] += order.totalAmount;
   });
-
   const revenueChart = {
     labels: months,
     datasets: [
       {
         label: "Revenue",
         data: revenueData,
-        borderColor: "#28a745",
+      borderColor: "#28a745",
         fill: false
       }
     ]
   };
 
- 
   const paid = data.recentOrders.filter(o => o.paymentStatus === "Paid").length;
   const pending = data.recentOrders.filter(o => o.paymentStatus !== "Paid").length;
 
@@ -100,7 +96,6 @@ function Dashboard() {
       }
     ]
   };
-
 
   const placed = data.recentOrders.filter(o => o.orderStatus === "Placed").length;
   const delivered = data.recentOrders.filter(o => o.orderStatus === "Delivered").length;
@@ -120,20 +115,16 @@ function Dashboard() {
 
       <div className="sidebar">
         <h3>Admin</h3>
+        <p onClick={() => navigate("/dashboard")}>Dashboard</p>
         <p onClick={() => navigate("/add-product")}>Add Product</p>
         <p onClick={() => navigate("/manage-products")}>Manage Product</p>
         <p onClick={() => navigate("/manageorder")}>Manage Order</p>
         <p onClick={() => navigate("/manageuser")}>Manage User</p>
       </div>
 
- 
-      <div className="main">
-
+      <div className="main"> 
         <h2>Admin Dashboard</h2>
-
-  
         <div className="cards">
-
           <div className="card">
             <p>{data.totalProducts}</p>
             <span>Products</span>
@@ -156,7 +147,6 @@ function Dashboard() {
 
         </div>
 
-     
         <div className="charts">
 
           <div className="chart-box">
@@ -176,7 +166,7 @@ function Dashboard() {
 
           <div className="chart-box">
             <h4>Order Status</h4>
-            <Pie data={statusChart} />
+            <Doughnut data={statusChart} />
           </div>
 
         </div>

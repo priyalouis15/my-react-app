@@ -103,7 +103,7 @@ function Footer() {
           images are only for illustration.
         </p>
 
-        <p>Copyright © 2023 Reliance Digital. All rights reserved.</p>
+        <p>Copyright @ 2026 Reliance Digital. All rights reserved.</p>
       </div>
 
     </footer>

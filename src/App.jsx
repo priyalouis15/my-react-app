@@ -9,7 +9,7 @@ import Login from "./pages/Login";
 
 import Admin from "./pages/Admin";
 import ManageProducts from "./pages/ManageProducts";
-import ProductDetails from "./pages/ProductDetails";
+ import ProductDetails from "./pages/ProductDetails";
   import EditOrder from "./pages/EditOrder";
 import Cart from "./pages/Cart";
 import ManageOrder from "./pages/ManageOrder"
@@ -34,12 +34,12 @@ function App() {
      
        
         <Route path="/admin" element={<Admin />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/add-product" element={<AddProducts />} />
         <Route path="/manage-products" element={<ManageProducts />} />
       
 
-<Route path="/otp" element={<Otp />} /> 
+    <Route path="/otp" element={<Otp />} /> 
 
 <Route path="/manageuser" element={<ManageUser />} />
         
