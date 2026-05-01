@@ -1,6 +1,7 @@
 .dashboard {
   padding: 20px;
   background: #f5f6fa;
+  min-height: 100vh;
 }
 
 .cards {
@@ -23,13 +24,32 @@
 }
 
 .charts {
-  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
 .chart-box {
   background: white;
   padding: 20px;
   border-radius: 10px;
+}
+
+.table-box {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
 .buttons {
@@ -39,5 +59,9 @@
 button {
   margin: 10px;
   padding: 10px 20px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
   cursor: pointer;
 }

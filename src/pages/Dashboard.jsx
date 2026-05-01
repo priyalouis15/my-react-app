@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import BASE_URL from "../api";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,7 +15,7 @@ import {
   Legend
 } from "chart.js";
 
-import { Line, Bar, Pie } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import "./Dashboard.css";
 
 ChartJS.register(
@@ -42,21 +43,44 @@ function Dashboard() {
       const res = await axios.get(`${BASE_URL}/admin/dashboard`);
       setData(res.data);
     } catch (err) {
-      console.log(err);
+      console.log("Dashboard error:", err);
     }
   };
 
-  if (!data) return <p>Loading...</p>;
+  if (!data) return <h3 style={{ textAlign: "center" }}>Loading...</h3>;
 
-  const labels = data.salesByMonth.map(i => `M${i._id.month}`);
-  const values = data.salesByMonth.map(i => i.count);
+  
+  const labels =
+    data.salesByMonth?.map(i =>
+      new Date(2024, i._id.month - 1).toLocaleString("default", { month: "short" })
+    ) || [];
 
-  const graphData = {
+  const values = data.salesByMonth?.map(i => i.count) || [];
+
+  const barData = {
     labels,
     datasets: [
       {
         label: "Orders",
-        data: values
+        data: values,
+        backgroundColor: "#007bff"
+      }
+    ]
+  };
+
+ 
+  const paid =
+    data.recentOrders?.filter(o => o.paymentStatus === "Paid").length || 0;
+
+  const pending =
+    data.recentOrders?.filter(o => o.paymentStatus !== "Paid").length || 0;
+
+  const pieData = {
+    labels: ["Paid", "Pending"],
+    datasets: [
+      {
+        data: [paid, pending],
+        backgroundColor: ["#4CAF50", "#FFC107"]
       }
     ]
   };
@@ -66,7 +90,13 @@ function Dashboard() {
 
       <h2>Admin Dashboard</h2>
 
+   
       <div className="cards">
+
+        <div className="card">
+          <p>{data.totalProducts}</p>
+          <span>Total Products</span>
+        </div>
 
         <div className="card">
           <p>{data.totalOrders}</p>
@@ -79,7 +109,7 @@ function Dashboard() {
         </div>
 
         <div className="card">
-          <p>₹ {data.totalRevenue}</p>
+          <p>₹ {data.totalRevenue.toLocaleString()}</p>
           <span>Total Revenue</span>
         </div>
 
@@ -89,11 +119,53 @@ function Dashboard() {
 
         <div className="chart-box">
           <h4>Sales Per Month</h4>
-          <Bar data={graphData} />
+          <Bar data={barData} />
+        </div>
+
+        <div className="chart-box">
+          <h4>Payment Status</h4>
+          <Pie data={pieData} />
         </div>
 
       </div>
 
+      <div className="table-box">
+        <h4>Recent Orders</h4>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {data.recentOrders?.map(order => (
+              <tr key={order._id}>
+                <td>{order._id.slice(-6)}</td>
+                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                <td>₹ {order.totalAmount.toLocaleString()}</td>
+                <td
+                  style={{
+                    color:
+                      order.orderStatus === "Placed"
+                        ? "orange"
+                        : "green",
+                    fontWeight: "bold"
+                  }}
+                >
+                  {order.orderStatus}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+     
       <div className="buttons">
 
         <button onClick={() => navigate("/add-product")}>
