@@ -14,31 +14,24 @@ const categories = [
   { name: "Refrigerators", img: "/assets/refrigertor.jpg" },
   { name: "Washing Machine", img: "/assets/ws.jpg" },
 ];
-
 function Category() {
 
   const [products, setProducts] = useState([]);
-
-  const fetchProducts = async (category) => {
-    try {
-      const res = await axios.get(
-        `${BASE_URL}/products/category/${category}`
-      );
-      setProducts(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  const fetchProducts = async (category)=>{
+  try {
+    const res = await axios.get(`${BASE_URL}/products/category/${category}`);
+    setProducts(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
   return (
     <div>
-
-      
     <div className="categories">
         {categories.map((cat, i) => (
           <div
             className="category"
-            key={i}
+           key={i}
             onClick={() => fetchProducts(cat.name)}
           >
             <img src={cat.img} alt={cat.name} />
@@ -57,7 +50,6 @@ function Category() {
           </div>
         ))}
       </div>
-
     </div>
   );
 }

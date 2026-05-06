@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import BASE_URL from "../api";
+import "./Search.css";
 function Search() {
 
   const navigate = useNavigate();
@@ -20,49 +21,65 @@ function Search() {
 
   }, [query]);
 
-  return (
-    <div style={{ padding: "40px" }}>
-      <h2>Search Results for "{query}"</h2>
-      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-        {products.map((p) => (
-        <div key={p._id} style={{ width: "220px" }}>
-            <img
-              src={p.image}
-              width="150"
-              alt={p.name}
-            />
-            <h4>{p.name}</h4>
-            <p>₹ {p.price}</p>
-            <button
-              onClick={async () => {
-                await axios.post(`${BASE_URL}/cart`, {
-                productId: p._id
-                });
-              alert("Added to cart");
-              }}
-            >
-              Add to Cart
-            </button>
 
-            <button
-              onClick={() => {
-                navigate("/checkout", {
+
+return (
+  <div className="search-container">
+
+    <h2 className="search-title">
+      Search Results for "{query}"
+    </h2>
+
+    <div className="product-grid">
+
+      {products.map((p) => (
+        <div key={p._id} className="product-card">
+
+          <img
+            src={p.image}
+            alt={p.name}
+            className="product-image"
+          />
+
+          <h4 className="product-name">{p.name}</h4>
+
+          <p className="product-price">₹ {p.price}</p>
+
+          <button
+            className="btn cart-btn"
+            onClick={async () => {
+              await axios.post(`${BASE_URL}/cart`, {
+                productId: p._id
+              });
+              alert("Added to cart");
+            }}
+          >
+            Add to Cart
+          </button>
+
+          <button
+            className="btn buy-btn"
+            onClick={() => {
+              navigate("/checkout", {
                 state: {
-                    buyNowItem: {
-                     productId: p._id,
+                  buyNowItem: {
+                    productId: p._id,
                     quantity: 1
-                    }
                   }
-                });
-              }}
-            >
-              Buy Now
-            </button>
-          </div>
-        ))}
-      </div>
+                }
+              });
+            }}
+          >
+            Buy Now
+          </button>
+
+        </div>
+      ))}
+
     </div>
-  );
+
+  </div>
+);
 }
 
 export default Search;
