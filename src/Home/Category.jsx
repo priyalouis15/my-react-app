@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import BASE_URL from "../api";
 import "./Category.css";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   { label: "Air Conditioners", value: "AC", img: "/assets/Ac.jpg" },
@@ -19,43 +20,68 @@ function Category() {
 
   const [products, setProducts] = useState([]);
 
+  const navigate = useNavigate();
+
   const fetchProducts = async (category) => {
-    console.log("Clicked:", category);
+
     try {
-      const res = await axios.get(`${BASE_URL}/products/category/${category}`);
-      console.log("Response:", res.data);
+
+      const res = await axios.get(
+        `${BASE_URL}/products/category/${category}`
+      );
+
       setProducts(res.data);
+
     } catch (err) {
+
       console.log(err);
+
     }
   };
 
   return (
     <div>
 
-      {/* CATEGORY SECTION */}
       <div className="categories">
+
         {categories.map((cat, i) => (
+
           <div
             className="category"
             key={i}
             onClick={() => fetchProducts(cat.value)}
           >
+
             <img src={cat.img} alt={cat.label} />
+
             <p>{cat.label}</p>
+
           </div>
+
         ))}
+
       </div>
 
-      {/* PRODUCT SECTION */}
       <div className="product-grid">
-        {products.map(p => (
-          <div className="product-card" key={p._id}>
+
+        {products.map((p) => (
+
+          <div
+            className="product-card"
+            key={p._id}
+            onClick={() => navigate(`/product/${p._id}`)}
+          >
+
             <img src={p.image} alt={p.name} />
+
             <h4>{p.name}</h4>
+
             <p>₹ {p.price}</p>
+
           </div>
+
         ))}
+
       </div>
 
     </div>
