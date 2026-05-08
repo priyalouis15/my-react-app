@@ -4,6 +4,7 @@ import BASE_URL from "../api";
 import "./Category.css";
 import { useNavigate } from "react-router-dom";
 
+
 const categories = [
   { label: "Air Conditioners", value: "AC", img: "/assets/Ac.jpg" },
   { label: "Mobiles", value: "Mobile", img: "/assets/mobile.jpg" },
